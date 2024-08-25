@@ -43,6 +43,7 @@ const Chat = () => {
     setPayload(data);
   }
 
+
   useEffect(() => {
     if (roomid) {
       const subscription = supabase
@@ -53,8 +54,23 @@ const Chat = () => {
   }, [roomid]);
 
   const insertRow = async () => {
-    const { data, error } = await supabase.from('rlt').insert([{ msg: msg, username: user, room_id: roomid},]).select()
+    const { data, error } = await supabase.from('rlt').insert([{ msg: msg, username: user, room_id: roomid},])
+    refreshRow();
   }
+
+  const refreshRow = async () => {
+      if (!roomid) return;
+      const { data, error } = await supabase
+        .from('rlt')
+        .select('*')
+        .eq('room_id', roomid);
+    
+      if (error) {
+        console.error('Error fetching messages:', error);
+      } else {
+        setPayload(data);
+      }
+    };
 
 
   return (
@@ -65,9 +81,14 @@ const Chat = () => {
             <TextInput className="bg-white h-12 mb-4 p-2 w-80 ml-9 rounded mt-10" ref={textRef} onFocus={handleFocus1} onBlur={handleBlur} style={{ fontFamily: 'Text'}} placeholder='enter your anon username!' value={user} required onChangeText={setUser}/>
             <TextInput className="bg-white h-12 mb-4 p-2 w-80 ml-9 rounded" ref={textRef} onFocus={handleFocus} onBlur={handleBlur}  style={{ fontFamily: 'Text'}} placeholder='enter your message!' value={msg} onChangeText={setMsg}/>
             <TextInput className="bg-white h-12 mb-4 p-2 w-80 ml-9 rounded" ref={textRef} onFocus={handleFocus1} onBlur={handleBlur} style={{ fontFamily: 'Text'}} placeholder='enter your room id (integers only)!' value={roomid} onChangeText={setRoomId}/>
+            <View className='flex-row justify-center align-middle'>
             <TouchableOpacity>
-              <Text className='text-white text-2xl ml-40' style={{ fontFamily: 'Text'}} onPress={insertRow}>Send</Text>
+              <Text className='text-white text-2xl ml-1' style={{ fontFamily: 'Text'}} onPress={insertRow}>Send</Text>
             </TouchableOpacity>
+            <TouchableOpacity>
+              <Text className='text-white text-2xl ml-10' style={{ fontFamily: 'Text'}} onPress={refreshRow}>Refresh</Text>
+            </TouchableOpacity>
+            </View>
             <ScrollView className="h-64 w-82 rounded-xl ml-1 mt-4 overflow-scroll-y border-2 border-cyan-400">
             {isTyping && <Text className="text-purple-500 ml-4 text-2xl" style={{ fontFamily: 'Text2'}}>typing...</Text>}
             {baseText && <Text className="text-purple-500 text-2xl ml-4" style={{ fontFamily: 'Text2'}}>start chatting!</Text> }
