@@ -6,7 +6,7 @@ import { supabase } from '../lib/supabase';
 const Index = () => {
 
   return (
-    <View className="flex-1 justify-center items-center bg-black mt-28">
+    <View className="flex-1 justify-center items-center bg-black mt-20">
       <View className="flex-row space-x-4 mb-2 h-18 w-72 bg-white rounded-full border-2 border-red-500">
           <Text className='text-3xl ml-14' style={{fontFamily: 'Text2'}}>anon chat room</Text>
       </View>
@@ -14,7 +14,7 @@ const Index = () => {
       <Text className="text-white text-7xl mt-32" style={{fontFamily:'Heading'}}>BeeHive</Text>
       <Text className="text-white text-4xl mt-2 ml-6" style={{fontFamily:'Text'}}>Chat anonymously with everyone!</Text>
       <View className="flex-1 justify-center items-center bg-black p-4">
-      <View className="flex-row space-x-4 mb-2 h-18 w-72 bg-white rounded-full">
+      <View className="flex-row space-x-4 mb-14 h-18 w-72 bg-white rounded-full">
         <TouchableOpacity className="py-3 px-2 ml-2">
           <Link href='/login'><Text className="text-red-600 text-3xl ml-20" style={{ fontFamily: 'Text' }}>Log in</Text></Link>
         </TouchableOpacity>
@@ -22,6 +22,9 @@ const Index = () => {
           <Link href='/signup'><Text className="text-red-600 text-3xl ml-20" style={{ fontFamily: 'Text' }}>Sign up</Text></Link>
         </TouchableOpacity>
         <Text className='text-white absolute top-16 left-1 text-xl' style={{fontFamily: 'Text2'}}>If you are a new user <Text className='font-extrabold'>sign up</Text> first</Text>
+        <Link href='./manual' className='text-white absolute top-24 left-24 text-3xl'>
+          <Text  style={{fontFamily: 'Text2'}}>manual</Text>
+        </Link>
       </View>
     </View>
     <Link href='./devinfo'>
